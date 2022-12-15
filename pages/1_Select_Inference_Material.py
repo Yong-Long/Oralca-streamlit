@@ -11,7 +11,7 @@ import numpy as np
 
 # ====== ====== ====== [  CONFIG  ] ====== ====== ======
 DIST_PACK_DIR = os.path.dirname(os.path.realpath(__file__))
-VIA_SRC_DIR = os.path.join(DIST_PACK_DIR, '../..')
+VIA_SRC_DIR = os.path.join(DIST_PACK_DIR, '../')
 
 # ====== ====== ====== [ FUNCTION ] ====== ====== ======
 
@@ -30,9 +30,16 @@ def progressBar():
         time.sleep(0.05)
 
     progress_bar.empty()
-    st.image(os.path.join(VIA_SRC_DIR,"dist/data/000015_00.png"))
+    st.image(os.path.join(VIA_SRC_DIR,"data/000015_00.png"))
     # inference_result()
 
+def upload_image_files(inImgsName,inImgsDict,inImgsData):
+    upload_files = st.file_uploader("Please choose image files",accept_multiple_files=True)
+    for idx, inFile in enumerate(upload_files):
+        inImgsName.append(inFile.name)
+        inImgsDict[inFile.name] = idx
+        inImgsData.append(inFile.read())
+    return inImgsName,inImgsDict,inImgsData
 
 # ====== ====== ====== [   MAIN   ] ====== ====== ======
 
@@ -47,8 +54,22 @@ def select_inference_material():
         5 seconds. Enjoy!"""
     )
     
-    if st.button("Load data"):
-        st.image(os.path.join(VIA_SRC_DIR,"dist/data/000015_00.png"))
+    #if st.button("Load data"):
+    inImgsName = []
+    inImgsDict = {}
+    inImgsData = []
+        
+    #if st.button("Upload images"):
+    inImgsName,inImgsDict,inImgsData = upload_image_files(inImgsName,inImgsDict,inImgsData)
+    
+    #st.image(os.path.join(VIA_SRC_DIR,"data/000015_00.png"))
+    # col1, col2 = st.columns(2)
+    if inImgsData != []:
+        selImg = st.radio(
+            "Select a image to view",
+            inImgsName
+        )
+        st.image(inImgsData[inImgsDict[selImg]])
     
     if st.button("Inference"):
         progressBar()

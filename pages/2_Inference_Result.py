@@ -11,7 +11,7 @@ import numpy as np
 
 # ====== ====== ====== [  CONFIG  ] ====== ====== ======
 DIST_PACK_DIR = os.path.dirname(os.path.realpath(__file__))
-VIA_SRC_DIR = os.path.join(DIST_PACK_DIR, '../..')
+VIA_SRC_DIR = os.path.join(DIST_PACK_DIR, '../')
 
 # ====== ====== ====== [ FUNCTION ] ====== ====== ======
 
@@ -46,7 +46,7 @@ def inference_result():
         5 seconds. Enjoy!"""
     )
     
-    st.image(os.path.join(VIA_SRC_DIR,"dist/data/000015_00.png"))
+    st.image(os.path.join(VIA_SRC_DIR,"data/000015_00.png"))
     
     st.button("Open VIA")
 

@@ -35,8 +35,7 @@ TARGET_OUT_JS_FILENAME = os.path.join(VIA_SRC_DIR,'_via_'+TARGET+'_demo.js')
 
 # - Fetch COCO anno JSON -
 TARGET_COCO_JSON_FILENAME = os.path.join(VIA_SRC_DIR,'data','test_coco_ann.json')
-
-# - Fetch COCO anno JSON -
+# - Fetch COCO attr JSON -
 TARGET_ATTR_JSON_FILENAME = os.path.join(VIA_SRC_DIR,'data','via_project_attributes.json')
 
 
@@ -63,7 +62,7 @@ def VIA_html():
     st.set_page_config(page_title="VIA HTML", page_icon="📈", layout="wide", initial_sidebar_state="collapsed")
 
     # ------ ------ Load source files ------ ------
-    TARGET_DEMO_JS = get_src_file_contents(TARGET_DEMO_JS_FILENAME)
+    TARGET_DEMO_JS   = get_src_file_contents(TARGET_DEMO_JS_FILENAME)
     TARGET_COCO_JSON = get_src_file_contents(TARGET_COCO_JSON_FILENAME)
     TARGET_ATTR_JSON = get_src_file_contents(TARGET_ATTR_JSON_FILENAME)
 
@@ -79,15 +78,16 @@ def VIA_html():
         with open(TARGET_DEMO_JS_FILENAME, 'r') as inf:
             for line in inf:
                 parsedline = line
-                if 'var attributes_json = ' in line:
-                    parsedline  = "var attributes_json = '"+TARGET_ATTR_JSON+"';\n"
-                elif 'var annotations_json = ' in line:
-                    parsedline  = "var annotations_json = '"+TARGET_COCO_JSON+"';\n"
-                elif 'import_annotations_from_json(annotations_json);' in line:
-                    parsedline  = "import_coco_annotations_from_json(annotations_json);\n"
-                elif 'var _via_basic_demo_img_filename = [' in line:
+                #if 'var attributes_json = ' in line:
+                #    parsedline  = "var attributes_json = '"+TARGET_ATTR_JSON+"';\n"
+                #elif 'var annotations_json = ' in line:
+                #    parsedline  = "var annotations_json = '"+TARGET_COCO_JSON+"';\n"
+                #elif 'import_annotations_from_json(annotations_json);' in line:
+                #    parsedline  = "import_coco_annotations_from_json(annotations_json);\n"
+                if 'var _via_basic_demo_img_filename = [' in line:
                     parsedline  = "var _via_basic_demo_img_filename = "+str(all_img_list)+";\n"
-                    for b64 in base64_imgs:
+                    #for b64 in base64_imgs:
+                    for img_path in all_img_list:
                         parsedline += "_via_basic_demo_img.push('"+b64+"');\n"
                 outf.write(parsedline)
 
